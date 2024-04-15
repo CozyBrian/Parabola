@@ -32,8 +32,29 @@ struct TitleButtonStyle: ButtonStyle {
     }
 }
 
+struct SidebarButtonStyle: ButtonStyle {
+    @State private var isPressed: Bool = false
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        
+        configuration.label
+//            .foregroundStyle(isPressed ? Color(hex: "#EBF2F9").opacity(0.8) : Color(hex: "#EBF2F9").opacity(0.6))
+            .frostStyle(style: isPressed ? .active : .mute)
+            .scaleEffect(isPressed ? 0.99 : 1)
+            .onChange(of: configuration.isPressed, {
+                withAnimation(.linear(duration: 0.05), {
+                    self.isPressed = configuration.isPressed
+                })
+            })
+    }
+}
+
 extension Button {
     func titleButtonStyle() -> some View {
         self.buttonStyle(TitleButtonStyle())
+    }
+    
+    func sidebarStyle() -> some View {
+        self.buttonStyle(SidebarButtonStyle())
     }
 }

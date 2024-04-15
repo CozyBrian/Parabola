@@ -24,7 +24,7 @@ struct LoadingBar: View {
                             opacity = 0.3
                         })
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                            withAnimation(.easeIn(duration: 0.2), {
+                            withAnimation(.spring(.bouncy), {
                                 width = 120
                             })
                         })
@@ -32,7 +32,7 @@ struct LoadingBar: View {
                             opacity = 1
                         })
                     } else {
-                        withAnimation(.easeIn(duration: 0.2), {
+                        withAnimation(.spring(.bouncy), {
                             width = 50
                         })
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {

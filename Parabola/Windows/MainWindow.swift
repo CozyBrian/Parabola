@@ -15,7 +15,7 @@ class MainWindow: NSWindow {
         
         super.init(
             contentRect: NSRect(x: (screen.width / 2) - (1200 / 2), y: (screen.height / 2) - (792 / 2), width: 1200, height: 792),
-            styleMask: [.borderless,.fullSizeContentView,.titled,.resizable,.closable],
+            styleMask: [.borderless,.fullSizeContentView,.titled,.resizable,.miniaturizable,.closable],
             backing: .buffered,
             defer: false
         )
