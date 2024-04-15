@@ -15,7 +15,7 @@ class MainWindow: NSWindow {
         
         super.init(
             contentRect: NSRect(x: (screen.width / 2) - (1200 / 2), y: (screen.height / 2) - (792 / 2), width: 1200, height: 792),
-            styleMask: [.fullSizeContentView,.titled,.resizable,.closable],
+            styleMask: [.borderless,.fullSizeContentView,.titled,.resizable,.closable],
             backing: .buffered,
             defer: false
         )
@@ -29,11 +29,6 @@ class MainWindow: NSWindow {
         self.titleVisibility = .hidden
         self.toolbar = customToolbar
         self.toolbarStyle = .unified
-        
-
-//        self.standardWindowButton(.closeButton)?.isHidden = true
-//        self.standardWindowButton(.miniaturizeButton)?.isHidden = true
-//        self.standardWindowButton(.zoomButton)?.isHidden = true
     }
     
     

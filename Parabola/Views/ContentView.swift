@@ -32,6 +32,9 @@ struct ContentView: View {
             .background {
                 RoundedRectangle(cornerRadius: 0)
                     .fill(.ultraThinMaterial)
+                    .environment(\.colorScheme, .dark)
+                RoundedRectangle(cornerRadius: 0)
+                    .fill(Color(hex: "#8EAFD2").opacity(0.3))
             }
             .cornerRadius(14)
         }

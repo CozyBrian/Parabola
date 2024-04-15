@@ -15,7 +15,7 @@ struct TitleButtonStyle: ButtonStyle {
         
         configuration.label
             .frame(width: 32, height: 32)
-            .foregroundStyle(isPressed ? .white.opacity(0.8) : .gray)
+            .foregroundStyle(isPressed ? Color(hex: "#EBF2F9").opacity(0.8) : Color(hex: "#EBF2F9").opacity(0.6))
             .aspectRatio(contentMode: .fit)
             .onHover(perform: { hovering in
                 withAnimation(.linear(duration: 0.05), {
@@ -23,7 +23,7 @@ struct TitleButtonStyle: ButtonStyle {
                 })
             }).background{
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(.gray.opacity(isHover ? 0.3 : 0))
+                    .fill(Color(hex: "#EBF2F9").opacity(isHover ? 0.1 : 0))
             }.onChange(of: configuration.isPressed, {
                 withAnimation(.linear(duration: 0.05), {
                     self.isPressed = configuration.isPressed

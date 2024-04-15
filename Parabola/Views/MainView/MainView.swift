@@ -6,33 +6,74 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct MainView: View {
-    @State var opacity: CGFloat = 0.18
-    @State var opacity2: CGFloat = 0.7
+    @EnvironmentObject var webManager: WebManager
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0, content: {
+            LoadingBar()
             VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Welcome to Parabola!")
-                    .font(.title)
-
+                WebView()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(.white.opacity(0.18))
-                    .shadow(color: Color.black.opacity(0.7), radius: 2.5, x: 0, y: 0)
-                    .opacity(1)
             }
-        }.padding([.vertical,.trailing], 10)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .shadow(color: Color.black.opacity(0.5), radius: 2.5, x: 0, y: 0)
+            .opacity(1)
+            
+        })
+        .padding([.bottom,.trailing], 10)
     }
 }
 
 #Preview {
-    MainView()
+    ContentView(parentWindow: MainWindow()).environmentObject(WebManager()).frame(width: 800)
 }
 
-// 20.5 12 8 12 8 12 20.5
+struct WebView: NSViewRepresentable {
+    @EnvironmentObject var webManager: WebManager
+
+    func makeNSView(context: Context) -> WKWebView {
+        webManager.webView.allowsBackForwardNavigationGestures = true
+        webManager.webView.navigationDelegate = context.coordinator
+        return webManager.webView
+    }
+    
+    func updateNSView(_ uiView: WKWebView, context: Context) {
+        
+    }
+    
+    public func makeCoordinator() -> Coordinator {
+        return Coordinator(webManager)
+    }
+    
+    class Coordinator: NSObject, WKNavigationDelegate {
+        private let parent: WebManager
+
+        init(_ parent: WebManager) {
+            self.parent = parent
+        }
+
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            print("Webview started loading.")
+            parent.state = .loading
+            parent.isLoading = true
+        }
+
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            print("Webview finished loading.")
+            parent.state = .idle
+            parent.isLoading = false
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            parent.state = .error
+            print("Webview failed with error: \(error.localizedDescription)")
+        }
+    }
+}

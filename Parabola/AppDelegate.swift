@@ -12,6 +12,7 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var mainWindow: MainWindow = MainWindow()
+    private var webManager: WebManager = WebManager()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupMain()
@@ -33,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupMainWindow(
             size: NSSize(width: 1200, height: 792),
             position: windowPositionCenter,
-            view: ContentView(parentWindow: mainWindow)
+            view: ContentView(parentWindow: mainWindow).environmentObject(webManager)
         )
         
         mainWindow.makeKeyAndOrderFront(nil)

@@ -8,48 +8,49 @@
 import SwiftUI
 
 struct Sidebar: View {
+    @EnvironmentObject var webManager: WebManager
     @Binding var sidebarWidth: CGFloat
     @State var urlBar: String = ""
     
     var body: some View {
-        GeometryReader { value in
-            let size = value.size
-            VStack(alignment: .center, spacing: 0, content: {
-                TitleBar()
-                ZStack {
-                    VStack {
-                        HStack {
-                            Text("youtube.com").font(.caption).foregroundStyle(.gray)
-                            Spacer()
-                        }
-                        .frame(height: 18)
-                        .frame(maxWidth: .infinity)
-                        .padding(8)
-                        .background {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.gray.opacity(0.3))
-                        }
+        VStack(alignment: .center, spacing: 0, content: {
+            TitleBar()
+            ZStack {
+                VStack {
+                    HStack {
+                        Text(webManager.webView.url!.absoluteString).font(.system(size: 14)).foregroundStyle(.white.opacity(0.8))
                         Spacer()
-                        Image(systemName: "globe")
-                            .imageScale(.large)
-                            .foregroundStyle(.tint)
-                        Text("Hello, world!")
-                        Text("width: \(sidebarWidth)")
-                        Text("Geo Width: \(size.width)")
-                        Text("Geo height: \(size.height)")
-                        Spacer()
-                    }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                    
-                    
-                    
-                    
-                }
-                .frame(maxWidth: .infinity)
+                    }
+                    .frame(height: 18)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 12)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(hex: "#EBF2F9").opacity(0.15))
+                    }
+                    Spacer()
+                    Image(systemName: "globe")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                    Text("Hello, world!")
+                    Text(webManager.isLoading ? "Loading..." : "Done!")
+                    Text(webManager.state.localizedName)
+                    Button("Go To Google", action: {
+                        webManager.loadURL("https://www.google.com")
+                    })
+                    Spacer()
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-            })
-            .padding(.horizontal, 8)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }.frame(maxWidth: sidebarWidth, maxHeight: .infinity)
+                
+                
+                
+            }
+            .frame(maxWidth: .infinity)
+            
+        })
+        .padding(.horizontal, 8)
+        .frame(maxWidth: sidebarWidth, maxHeight: .infinity)
     }
 }
 

@@ -19,6 +19,10 @@
 		5E2A5DAA2BC94DE8004173A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A5DA92BC94DE8004173A7 /* ContentView.swift */; };
 		5E2A5DAC2BC94DEA004173A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A5DAB2BC94DEA004173A7 /* Assets.xcassets */; };
 		5E2A5DAF2BC94DEA004173A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A5DAE2BC94DEA004173A7 /* Preview Assets.xcassets */; };
+		5EDCEC192BCD0D02002A208C /* WebManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC182BCD0D02002A208C /* WebManager.swift */; };
+		5EDCEC1B2BCD1F09002A208C /* CommandWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */; };
+		5EDCEC1D2BCD25C7002A208C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1C2BCD25C7002A208C /* Color.swift */; };
+		5EDCEC1F2BCD40ED002A208C /* LoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1E2BCD40ED002A208C /* LoadingBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,10 @@
 		5E2A5DAB2BC94DEA004173A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E2A5DAE2BC94DEA004173A7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5E2A5DB02BC94DEA004173A7 /* Parabola.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Parabola.entitlements; sourceTree = "<group>"; };
+		5EDCEC182BCD0D02002A208C /* WebManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebManager.swift; sourceTree = "<group>"; };
+		5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandWindow.swift; sourceTree = "<group>"; };
+		5EDCEC1C2BCD25C7002A208C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		5EDCEC1E2BCD40ED002A208C /* LoadingBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				5E0FA0272BCA231C00660B75 /* MainWindow.swift */,
+				5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -86,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				5E0FA02C2BCA5B7700660B75 /* View.swift */,
+				5EDCEC1C2BCD25C7002A208C /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -103,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				5E0FA0362BCAA6C500660B75 /* MainView.swift */,
+				5EDCEC1E2BCD40ED002A208C /* LoadingBar.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -134,6 +145,7 @@
 		5E2A5DA62BC94DE8004173A7 /* Parabola */ = {
 			isa = PBXGroup;
 			children = (
+				5EDCEC172BCD0C90002A208C /* ViewModels */,
 				5E0FA03D2BCB298500660B75 /* Styles */,
 				5E0FA02B2BCA5B6800660B75 /* Extensions */,
 				5E0FA0242BCA208000660B75 /* Helpers */,
@@ -155,6 +167,14 @@
 				5E2A5DAE2BC94DEA004173A7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5EDCEC172BCD0C90002A208C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5EDCEC182BCD0D02002A208C /* WebManager.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,10 +247,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EDCEC1F2BCD40ED002A208C /* LoadingBar.swift in Sources */,
+				5EDCEC192BCD0D02002A208C /* WebManager.swift in Sources */,
 				5E0FA0392BCB08CF00660B75 /* ResizeHandle.swift in Sources */,
 				5E0FA0282BCA231C00660B75 /* MainWindow.swift in Sources */,
 				5E0FA0372BCAA6C500660B75 /* MainView.swift in Sources */,
+				5EDCEC1D2BCD25C7002A208C /* Color.swift in Sources */,
 				5E0FA0262BCA219000660B75 /* AppDelegate.swift in Sources */,
+				5EDCEC1B2BCD1F09002A208C /* CommandWindow.swift in Sources */,
 				5E0FA02D2BCA5B7700660B75 /* View.swift in Sources */,
 				5E0FA03B2BCB24DE00660B75 /* TitleButtonStyle.swift in Sources */,
 				5E2A5DAA2BC94DE8004173A7 /* ContentView.swift in Sources */,
