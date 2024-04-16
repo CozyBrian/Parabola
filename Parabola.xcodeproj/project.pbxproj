@@ -19,8 +19,8 @@
 		5E2A5DAA2BC94DE8004173A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A5DA92BC94DE8004173A7 /* ContentView.swift */; };
 		5E2A5DAC2BC94DEA004173A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A5DAB2BC94DEA004173A7 /* Assets.xcassets */; };
 		5E2A5DAF2BC94DEA004173A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A5DAE2BC94DEA004173A7 /* Preview Assets.xcassets */; };
+		5ED387F22BCE68A200652FF8 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED387F12BCE68A200652FF8 /* CommandView.swift */; };
 		5EDCEC192BCD0D02002A208C /* WebManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC182BCD0D02002A208C /* WebManager.swift */; };
-		5EDCEC1B2BCD1F09002A208C /* CommandWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */; };
 		5EDCEC1D2BCD25C7002A208C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1C2BCD25C7002A208C /* Color.swift */; };
 		5EDCEC1F2BCD40ED002A208C /* LoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDCEC1E2BCD40ED002A208C /* LoadingBar.swift */; };
 /* End PBXBuildFile section */
@@ -40,8 +40,8 @@
 		5E2A5DAB2BC94DEA004173A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E2A5DAE2BC94DEA004173A7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5E2A5DB02BC94DEA004173A7 /* Parabola.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Parabola.entitlements; sourceTree = "<group>"; };
+		5ED387F12BCE68A200652FF8 /* CommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandView.swift; sourceTree = "<group>"; };
 		5EDCEC182BCD0D02002A208C /* WebManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebManager.swift; sourceTree = "<group>"; };
-		5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandWindow.swift; sourceTree = "<group>"; };
 		5EDCEC1C2BCD25C7002A208C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		5EDCEC1E2BCD40ED002A208C /* LoadingBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				5E0FA0272BCA231C00660B75 /* MainWindow.swift */,
-				5EDCEC1A2BCD1F09002A208C /* CommandWindow.swift */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -69,6 +68,7 @@
 		5E0FA0222BCA206B00660B75 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5ED387F02BCE688E00652FF8 /* CommandView */,
 				5E0FA0352BCAA6B900660B75 /* MainView */,
 				5E0FA0322BCAA64200660B75 /* Sidebar */,
 				5E2A5DA92BC94DE8004173A7 /* ContentView.swift */,
@@ -169,6 +169,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		5ED387F02BCE688E00652FF8 /* CommandView */ = {
+			isa = PBXGroup;
+			children = (
+				5ED387F12BCE68A200652FF8 /* CommandView.swift */,
+			);
+			path = CommandView;
+			sourceTree = "<group>";
+		};
 		5EDCEC172BCD0C90002A208C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +201,8 @@
 			dependencies = (
 			);
 			name = Parabola;
+			packageProductDependencies = (
+			);
 			productName = Parabola;
 			productReference = 5E2A5DA42BC94DE8004173A7 /* Parabola.app */;
 			productType = "com.apple.product-type.application";
@@ -221,6 +231,9 @@
 				Base,
 			);
 			mainGroup = 5E2A5D9B2BC94DE8004173A7;
+			packageReferences = (
+				5ED387EB2BCE61FD00652FF8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			productRefGroup = 5E2A5DA52BC94DE8004173A7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -252,9 +265,9 @@
 				5E0FA0392BCB08CF00660B75 /* ResizeHandle.swift in Sources */,
 				5E0FA0282BCA231C00660B75 /* MainWindow.swift in Sources */,
 				5E0FA0372BCAA6C500660B75 /* MainView.swift in Sources */,
+				5ED387F22BCE68A200652FF8 /* CommandView.swift in Sources */,
 				5EDCEC1D2BCD25C7002A208C /* Color.swift in Sources */,
 				5E0FA0262BCA219000660B75 /* AppDelegate.swift in Sources */,
-				5EDCEC1B2BCD1F09002A208C /* CommandWindow.swift in Sources */,
 				5E0FA02D2BCA5B7700660B75 /* View.swift in Sources */,
 				5E0FA03B2BCB24DE00660B75 /* TitleButtonStyle.swift in Sources */,
 				5E2A5DAA2BC94DE8004173A7 /* ContentView.swift in Sources */,
@@ -461,6 +474,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5ED387EB2BCE61FD00652FF8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 5E2A5D9C2BC94DE8004173A7 /* Project object */;
 }

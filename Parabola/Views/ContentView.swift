@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var sidebarWidth: CGFloat = 273
+    @State var showCommand: Bool = false
     private weak var parentWindow: MainWindow!
     
     
@@ -27,6 +28,7 @@ struct ContentView: View {
                 })
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 ResizeHandle(sidebarWidth: $sidebarWidth, view: Binding.constant(size))
+                CommandView(showCommand: $showCommand, view: Binding.constant(size))
             })
             .frame(maxWidth: .infinity)
             .background {
