@@ -15,7 +15,7 @@ struct MainView: View {
         VStack(spacing: 0, content: {
             LoadingBar()
             VStack {
-                WebView()
+                WebView(webManager: webManager)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background {
@@ -36,23 +36,40 @@ struct MainView: View {
 }
 
 struct WebView: NSViewRepresentable {
-    @EnvironmentObject var webManager: WebManager
+    @ObservedObject var webManager: WebManager
 
     func makeNSView(context: Context) -> WKWebView {
-        webManager.webView.allowsBackForwardNavigationGestures = true
-        webManager.webView.navigationDelegate = context.coordinator
-        return webManager.webView
+        let wk = WKWebView()
+        wk.allowsBackForwardNavigationGestures = true
+        wk.navigationDelegate = context.coordinator
+        wk.uiDelegate = context.coordinator
+        return wk
     }
     
     func updateNSView(_ uiView: WKWebView, context: Context) {
-        
+        guard let webView = webManager.webView else {
+            return
+        }
+
+        if webView != uiView.subviews.first {
+            uiView.subviews.forEach { $0.removeFromSuperview() }
+            
+            webView.frame = CGRect(origin: .zero, size: uiView.bounds.size)
+            uiView.addSubview(webView)
+            uiView.allowsBackForwardNavigationGestures = true
+            uiView.navigationDelegate = context.coordinator
+            uiView.uiDelegate = context.coordinator
+            webView.allowsBackForwardNavigationGestures = true
+            webView.navigationDelegate = context.coordinator
+            webView.uiDelegate = context.coordinator
+        }
     }
     
     public func makeCoordinator() -> Coordinator {
         return Coordinator(webManager)
     }
     
-    class Coordinator: NSObject, WKNavigationDelegate {
+    class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate {
         private let parent: WebManager
 
         init(_ parent: WebManager) {
@@ -75,5 +92,34 @@ struct WebView: NSViewRepresentable {
             parent.state = .error
             print("Webview failed with error: \(error.localizedDescription)")
         }
+        
+        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+            if webView == parent.webView {
+                parent.url = webView.url?.absoluteString ?? "https://www.briannewton.dev"
+            }
+        }
+        
+//        func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+//            print("tried oo")
+//            if navigationAction.targetFrame == nil {
+//                let popupWebView = WKWebView(frame: .zero, configuration: configuration)
+//                popupWebView.navigationDelegate = self
+//                popupWebView.uiDelegate = self
+//                
+//                parent.webView.addSubview(popupWebView)
+//                popupWebView.translatesAutoresizingMaskIntoConstraints = false
+//                NSLayoutConstraint.activate([
+//                    popupWebView.topAnchor.constraint(equalTo: parent.webView.topAnchor),
+//                    popupWebView.bottomAnchor.constraint(equalTo: parent.webView.bottomAnchor),
+//                    popupWebView.leadingAnchor.constraint(equalTo: parent.webView.leadingAnchor),
+//                    popupWebView.trailingAnchor.constraint(equalTo: parent.webView.trailingAnchor)
+//                ])
+//                
+//                self.parent.webViews.append(popupWebView)
+//                return popupWebView
+//            }
+//            
+//            return nil
+//        }
     }
 }

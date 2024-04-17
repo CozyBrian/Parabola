@@ -17,7 +17,8 @@ enum WebLoadingState: String, Equatable, CaseIterable {
 }
 
 class WebManager: ObservableObject {
-    let webView: WKWebView!
+    @Published var webView: WKWebView!
+    @Published var webViews: [WKWebView]
     
     @Published var url: String = "https://www.briannewton.dev"
     @Published var isLoading: Bool = false
@@ -25,6 +26,7 @@ class WebManager: ObservableObject {
     
     init() {
         self.webView = WKWebView()
+        self.webViews = []
         loadURL(url)
     }
 
@@ -38,6 +40,15 @@ class WebManager: ObservableObject {
     
     func loadURL(_ urlString: String) {
         webView.load(URLRequest(url: URL(string: urlString)!))
+        webViews.append(webView)
     }
     
+    @discardableResult func createNewWebView(urlString: String) -> WKWebView {
+        let wv = WKWebView()
+        wv.load(URLRequest(url: URL(string: urlString)!))
+        webViews.append(wv)
+        webView = wv
+        
+        return wv
+    }
 }

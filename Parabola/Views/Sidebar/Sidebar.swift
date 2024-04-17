@@ -74,10 +74,9 @@ struct Sidebar: View {
                         })
                         .sidebarStyle()
                         
-                        ForEach(items, id: \.id) { value in
-                            TabItem(title: value.title, isSelected: selectedID == value.id) {
-                                selectedID = value.id
-                                webManager.loadURL(value.link)
+                        ForEach(webManager.webViews, id: \.self) { tab in
+                            TabItem(title: tab.title ?? "loading..", isSelected: webManager.webView == tab) {
+                                webManager.webView = tab
                             }
                         }
                         

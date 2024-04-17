@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TitleBar: View {
-//    @Binding var parentWindow: MainWindow
+    @EnvironmentObject var webManager: WebManager
     
     var body: some View {
         HStack {
@@ -24,22 +24,29 @@ struct TitleBar: View {
             Spacer()
             HStack ( spacing: 4, content: {
                 Button(action: {
+                    webManager.webView.goBack()
                 }, label: {
                     Image(systemName: "arrow.left")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 14)
-                }).titleButtonStyle()
+                })
+                .titleButtonStyle()
+                .disabled(!webManager.webView.canGoBack)
                 
                 Button(action: {
+                    webManager.webView.goForward()
                 }, label: {
                     Image(systemName: "arrow.right")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 14)
-                }).titleButtonStyle()
+                })
+                .titleButtonStyle()
+                .disabled(!webManager.webView.canGoForward)
                 
                 Button(action: {
+                    webManager.webView.reload()
                 }, label: {
                     Image(systemName: "arrow.clockwise")
                         .resizable()
@@ -50,27 +57,5 @@ struct TitleBar: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 52)
-//        .background{
-//            RoundedRectangle(cornerRadius: 0)
-//                .fill(.thickMaterial)
-//        }
-        .gesture(
-            DragGesture()
-            .onChanged { value in
-//                    let offsetX = value.location.x - value.startLocation.x
-//                    let offsetY = value.location.y - value.startLocation.y
-//
-//                    let coords = parentWindow.frame.origin
-//                    let size = parentWindow.frame.size
-//
-//                    let offCoords = CGPoint(x: coords.x + offsetX, y: coords.y - offsetY)
-//
-//                    parentWindow.setFrame(NSRect(origin: offCoords, size: size), display: true, animate: false)
-            }
-        )
     }
-}
-
-#Preview {
-    TitleBar()
 }
