@@ -7,97 +7,93 @@
 
 import SwiftUI
 
-struct SidebarTabItem {
-    var id: UUID
-    var title: String
-    var link: String
-}
-
 struct Sidebar: View {
     @EnvironmentObject var webManager: WebManager
     @Binding var sidebarWidth: CGFloat
     @State var selectedID: UUID = UUID()
-    
-    var items: [SidebarTabItem] = [
-     SidebarTabItem(id: UUID(), title: "Google", link: "https://www.google.com"),
-     SidebarTabItem(id: UUID(), title: "Portfolio", link: "https://www.briannewton.dev"),
-     SidebarTabItem(id: UUID(), title: "Youtube", link: "https://www.youtube.com"),
-     SidebarTabItem(id: UUID(), title: "Twitter", link: "https://www.x.com")
-    ]
-    
+    @State var toggleDebug: Bool = false
+    @State var showUrlBarOverlay: Bool = false
+
     var body: some View {
         VStack(alignment: .center, spacing: 0, content: {
             TitleBar()
             ZStack {
                 VStack {
-                    HStack {
-                        Text(webManager.webView.url!.absoluteString).font(.system(size: 14)).foregroundStyle(.white.opacity(0.8))
-                        Spacer()
+                    Urlbar(
+                        currentUrl: webManager.webView?.url?.absoluteString ?? "about:parabola"
+                    )
+                    .onTapGesture {
+                        showUrlBarOverlay.toggle()
                     }
-                    .frame(height: 18)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .frostStyle(cornerRadius: 10)
+                    .overlay(content: {
+                        if showUrlBarOverlay {
+                            VStack(content: {
+                                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                            })
+                            .padding(.horizontal, 8.5)
+                            .frame(width: (sidebarWidth - 16).clamped(to: 320...370), height: 100)
+                            .floatingStyle()
+                            .position(x: (sidebarWidth - 16).clamped(to: 320...370) / 2, y: 90)
+                        }
+                    })
+                    .zIndex(2)
                     
                     TopPinnedTabs()
-                    HStack(spacing: 8, content: {
-                        Image(systemName: "bolt.fill")
-                            .imageScale(.medium)
-                            .foregroundStyle(.white)
-                        
-                        Text("MAIN").fontWeight(.semibold).foregroundStyle(.white.opacity(0.4))
-                        Spacer()
-                        Image(systemName: "ellipsis")
-                            .imageScale(.medium)
-                            .foregroundStyle(.white)
-                    })
-                    .padding(.horizontal, 12)
-                    .frame(height: 36)
-                    .frostStyle(style: .mute)
+                    TabSectionHeader()
                     Divider()
-                    VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 4, content: {
-                        Button(action: {
-                            print("new tab")
-                        }, label: {
-                            HStack(spacing: 8, content: {
-                                Image(systemName: "plus")
-                                    .imageScale(.medium)
-                                    .foregroundStyle(.white.opacity(0.4))
-                                    .fontWeight(.semibold)
-                                
-                                Text("New Tab").foregroundStyle(.white.opacity(0.4))
-                                Spacer()
-                                
-                            })
-                            .padding(.horizontal, 12)
-                            .frame(height: 36)
-                        })
-                        .sidebarStyle()
+                    VStack(spacing: 4, content: {
+                        NewTabButton()
                         
                         ForEach(webManager.webViews, id: \.self) { tab in
-                            TabItem(title: tab.title ?? "loading..", isSelected: webManager.webView == tab) {
-                                webManager.webView = tab
-                            }
+                            TabItem(
+                                title: tab.title ?? "loading",
+                                url: tab.url,
+                                isSelected: webManager.isActive(tab),
+                                onEvent: { event in
+                                   switch event {
+                                       case .onClicked:
+                                           webManager.setMainWebview(tab)
+                                       case .onClose:
+                                           webManager.removeFromWebviews(tab)
+                                   }
+                                })
                         }
-                        
-                        
                     })
-                    
-                    
-                    
+
+                    Toggle("toggle debug Mode", isOn: $toggleDebug)
+                        .formStyle(.grouped)
                     Spacer()
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, world!")
-                    Text(webManager.isLoading ? "Loading..." : "Done!")
-                    Text(webManager.state.localizedName)
-                    Spacer()
+                    HStack {
+                        ScrimLoader()
+                        if toggleDebug {
+                            VStack(alignment: .leading, content: {
+                                Button(action: {
+                                    webManager.removeMainWebview()
+                                    print(webManager.webView as Any)
+                                    print("remove clicked")
+                                }, label: {
+                                    HStack {
+                                        Text("Clear Main Webview")
+                                    }.frame(height: 36)
+                                }).sidebarStyle()
+                                Button(action: {
+                                    print(webManager.webView as Any)
+                                    print("remove clicked")
+                                }, label: {
+                                    HStack {
+                                        Text("Print Main WebView")
+                                    }.frame(height: 36)
+                                }).sidebarStyle()
+                                Text("isLoading: \(webManager.isLoading ? "Loading..." : "Done!")")
+                                HStack {
+                                    Text("state:")
+                                    Text(webManager.state.localizedName)
+                                }
+                            }).padding(.vertical, 8)
+                        }
+                        Spacer()
+                    }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                
-                
-                
-                
             }
             .frame(maxWidth: .infinity)
             
@@ -107,74 +103,46 @@ struct Sidebar: View {
     }
 }
 
-struct TopPinnedTabs: View {
+struct TabSectionHeader: View {
     var body: some View {
-        HStack {
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.white)
-            }
-            .frame(height: 48)
-            .frostStyle(cornerRadius: 10)
+        HStack(spacing: 8, content: {
+            Image(systemName: "bolt.fill")
+                .imageScale(.medium)
+                .foregroundStyle(.white)
             
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.white)
-            }
-            .frame(height: 48)
-            .frostStyle(cornerRadius: 10)
-            
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.white)
-            }
-            .frame(height: 48)
-            .frostStyle(cornerRadius: 10)
-            
-        }
+            Text("MAIN").fontWeight(.semibold).foregroundStyle(.white.opacity(0.4))
+            Spacer()
+            Image(systemName: "ellipsis")
+                .imageScale(.medium)
+                .foregroundStyle(.white)
+        })
+        .padding(.horizontal, 12)
+        .frame(height: 36)
+        .frostStyle(style: .mute)
     }
 }
 
-
-struct TabItem: View {
-    @State private var isHover: Bool = false
-    var title: String = "Blank"
-    var isSelected: Bool = false
-    var action: () -> Void
-    
-    
+struct NewTabButton: View {
     var body: some View {
         Button(action: {
-            action()
+            print("new tab")
         }, label: {
             HStack(spacing: 8, content: {
-                Image(systemName: "globe")
+                Image(systemName: "plus")
                     .imageScale(.medium)
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.4))
+                    .fontWeight(.semibold)
                 
-                Text(title).font(.system(size: 14)).foregroundStyle(.white.opacity(0.8))
+                Text("New Tab").foregroundStyle(.white.opacity(0.4))
                 Spacer()
             })
             .padding(.horizontal, 12)
             .frame(height: 36)
         })
         .sidebarStyle()
-        .onHover(perform: { hovering in
-            withAnimation(.linear(duration: 0.05), {
-                self.isHover = hovering
-            })
-        })
-        .background{
-            RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? Color(hex: "#EBF2F9").opacity(0.15) : .clear)
-        }
-        
     }
 }
 
 #Preview {
-    ContentView(parentWindow: MainWindow()).environmentObject(WebManager()).frame(width: 800, height: 528)
+    Sidebar(sidebarWidth: Binding.constant(270)).environmentObject(WebManager()).frame(height: 528)
 }

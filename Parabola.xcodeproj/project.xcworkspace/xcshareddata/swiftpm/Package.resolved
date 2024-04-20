@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "keyboardshortcuts",
+      "identity" : "faviconfinder",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
+      "location" : "https://github.com/will-lumley/FaviconFinder",
       "state" : {
-        "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4",
-        "version" : "2.0.0"
+        "revision" : "c87a6d27d472a2013506c3c173a8768f8e7521ee",
+        "version" : "5.0.2"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
+        "version" : "2.7.2"
       }
     }
   ],

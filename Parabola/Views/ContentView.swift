@@ -24,6 +24,7 @@ struct ContentView: View {
             ZStack(alignment: .leading, content: {
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                     Sidebar(sidebarWidth: $sidebarWidth)
+                        .zIndex(2)
                     MainView()
                 })
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

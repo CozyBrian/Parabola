@@ -19,12 +19,7 @@ struct ResizeHandle: View {
             .background(.blue.opacity(0.005))
             .gesture(DragGesture().onChanged { value in
                 let offsetX = value.location.x - value.startLocation.x
-                
-                sidebarWidth = (sidebarWidth + offsetX <= view.width / 2) ?
-                (sidebarWidth + offsetX >= minWidthValue) ?
-                sidebarWidth + offsetX :
-                minWidthValue :
-                view.width / 2
+                sidebarWidth = (sidebarWidth + offsetX).clamped(to: 240...400)
             })
             .position(x: sidebarWidth, y: view.height / 2)
     }

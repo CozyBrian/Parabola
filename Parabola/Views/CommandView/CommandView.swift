@@ -18,9 +18,9 @@ struct CommandView: View {
                 InputBox(searchText: $searchText, showCommand: $showCommand)
                 Divider()
                 VStack(spacing: 6, content: {
-                    CommandViewItem()
-                    CommandViewItem()
-                    CommandViewItem(isSelected: true)
+//                    CommandViewItem()
+//                    CommandViewItem()
+//                    CommandViewItem(isSelected: true)
                 })
                 .padding(.vertical, 6)
                 Spacer()
@@ -89,7 +89,7 @@ struct InputBox: View {
     func handleUrlOrSearch(_ input: String) -> String {
         // Check if the input is a valid URL
         let isUrl: (String) -> Bool = { input in
-            let urlPattern = #"^(https?:\/\/)?(www\.)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)*$"#
+            let urlPattern = #"^(https?:\/\/)?([\w\d-]+\.)+[\w\d]{2,}(\/[\w\d-]+)*\/?$"#
             let regex = try? NSRegularExpression(pattern: urlPattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: input.count)
             return regex?.firstMatch(in: input, options: [], range: range) != nil
@@ -97,7 +97,11 @@ struct InputBox: View {
         
         // Navigate to the URL if it's valid
         if isUrl(input) {
-            return input
+            var formattedURL = input.lowercased()
+            if !formattedURL.hasPrefix("https://") {
+                formattedURL = "https://\(formattedURL)"
+            }
+            return formattedURL
         }
         
         // If it's not a URL, treat it as a search query
