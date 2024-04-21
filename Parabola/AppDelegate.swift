@@ -13,6 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var mainWindow: MainWindow = MainWindow()
     private var webManager: WebManager = WebManager()
+    private var globalSettings: GlobalSettings = GlobalSettings()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupMain()
@@ -28,13 +29,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let mainScreen = NSScreen.screens[0]
             let screen = mainScreen.frame.size
             
-            return .init(x: (screen.width / 2) - (1200 / 2), y: (screen.height / 2) - (792 / 2))
+            return .init(x: (screen.width / 2) - (1330 / 2), y: (screen.height / 2) - (792 / 2))
         }
         
         setupMainWindow(
-            size: NSSize(width: 1200, height: 792),
+            size: NSSize(width: 1330, height: 792),
             position: windowPositionCenter,
-            view: ContentView(parentWindow: mainWindow).environmentObject(webManager)
+            view: ContentView(parentWindow: mainWindow)
+                .environmentObject(webManager)
+                .environmentObject(globalSettings)
         )
         
         mainWindow.makeKeyAndOrderFront(nil)

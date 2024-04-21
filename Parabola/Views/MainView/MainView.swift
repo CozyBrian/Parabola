@@ -91,31 +91,27 @@ struct WebView: NSViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-//            print("Webview started loading.")
             parent.state = .loading
             parent.isLoading = true
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-//            print("Webview finished loading.")
             parent.state = .idle
             parent.isLoading = false
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             parent.state = .error
-//            print("Webview failed with error: \(error.localizedDescription)")
+            print("Webview failed with error: \(error.localizedDescription)")
         }
         
         func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-            print("something-1")
             if webView == parent.webView {
                 parent.url = webView.url?.absoluteString ?? "about:parabola"
             }
         }
         
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-            print("tried oo")
             let newTabView = WKWebView(frame: .zero, configuration: configuration)
             newTabView.navigationDelegate = self
             newTabView.uiDelegate = self
@@ -124,13 +120,9 @@ struct WebView: NSViewRepresentable {
         }
         
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            print("something-2")
             decisionHandler(WKNavigationActionPolicy.allow)
             parent.trigger.toggle()
         }
         
-        func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-            print("something-3")
-        }
     }
 }

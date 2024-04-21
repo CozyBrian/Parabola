@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Sidebar: View {
     @EnvironmentObject var webManager: WebManager
+    @EnvironmentObject var globalSettings: GlobalSettings
     @Binding var sidebarWidth: CGFloat
     @State var selectedID: UUID = UUID()
     @State var toggleDebug: Bool = false
@@ -64,13 +65,16 @@ struct Sidebar: View {
                         .formStyle(.grouped)
                     Spacer()
                     HStack {
+                        ColorPicker("system Color", selection: $globalSettings.appColor)
+                            .onChange(of: globalSettings.appColor, { oldV, newV in
+                                globalSettings.setAppColor(newV)
+                            })
                         ScrimLoader()
                         if toggleDebug {
                             VStack(alignment: .leading, content: {
                                 Button(action: {
                                     webManager.removeMainWebview()
                                     print(webManager.webView as Any)
-                                    print("remove clicked")
                                 }, label: {
                                     HStack {
                                         Text("Clear Main Webview")
@@ -78,7 +82,6 @@ struct Sidebar: View {
                                 }).sidebarStyle()
                                 Button(action: {
                                     print(webManager.webView as Any)
-                                    print("remove clicked")
                                 }, label: {
                                     HStack {
                                         Text("Print Main WebView")
@@ -144,5 +147,8 @@ struct NewTabButton: View {
 }
 
 #Preview {
-    Sidebar(sidebarWidth: Binding.constant(270)).environmentObject(WebManager()).frame(height: 528)
+    Sidebar(sidebarWidth: Binding.constant(270))
+        .environmentObject(WebManager())
+        .environmentObject(GlobalSettings())
+        .frame(height: 528)
 }

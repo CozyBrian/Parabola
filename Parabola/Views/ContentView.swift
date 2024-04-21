@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var globalSettings: GlobalSettings
     @State var sidebarWidth: CGFloat = 273
     @State var showCommand: Bool = false
     private weak var parentWindow: MainWindow!
@@ -37,7 +38,8 @@ struct ContentView: View {
                     .fill(.ultraThinMaterial)
                     .environment(\.colorScheme, .dark)
                 RoundedRectangle(cornerRadius: 0)
-                    .fill(Color(hex: "#8EAFD2").opacity(0.3))
+//                    .fill(Color(hex: "#8EAFD2").opacity(0.3))
+                    .fill(globalSettings.appColor.opacity(0.3))
             }
             .cornerRadius(14)
         }
