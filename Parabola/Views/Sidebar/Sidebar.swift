@@ -61,16 +61,10 @@ struct Sidebar: View {
                         }
                     })
 
-                    Toggle("toggle debug Mode", isOn: $toggleDebug)
-                        .formStyle(.grouped)
                     Spacer()
                     HStack {
-                        ColorPicker("system Color", selection: $globalSettings.appColor)
-                            .onChange(of: globalSettings.appColor, { oldV, newV in
-                                globalSettings.setAppColor(newV)
-                            })
                         ScrimLoader()
-                        if toggleDebug {
+                        if globalSettings.debugMode {
                             VStack(alignment: .leading, content: {
                                 Button(action: {
                                     webManager.removeMainWebview()

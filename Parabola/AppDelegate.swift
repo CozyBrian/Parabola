@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var mainWindow: MainWindow = MainWindow()
     private var webManager: WebManager = WebManager()
-    private var globalSettings: GlobalSettings = GlobalSettings()
+    var globalSettings: GlobalSettings = GlobalSettings()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupMain()

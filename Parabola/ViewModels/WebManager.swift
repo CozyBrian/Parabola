@@ -95,6 +95,7 @@ class WebManager: ObservableObject {
         webViewItem.setAllMediaPlaybackSuspended(true)
         webViewItem.navigationDelegate = nil
         webViewItem.uiDelegate = nil
+        webView?.stopLoading()
         webViews.removeAll(where: { wk in
             wk == webViewItem
         })
